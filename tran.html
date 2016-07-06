@@ -28,10 +28,10 @@
                 function getT(ev){//最终求出角度
                     var x1 = ev.targetTouches[0].pageX;
                     var y1 = ev.targetTouches[0].pageY;
-                    var x2 = oDiv.offsetLeft + oDiv.offsetWidth/2;
-                    var y2 = oDiv.offsetTop + oDiv.offsetHeight/2;
-                    var x = x1 - x2;
-                    var y = y2 - y1;
+                    var x2 = ev.targetTouches[1].pageX;
+					var y2 = ev.targetTouches[1].pageY;
+                    var x = (x1 - x2)/2;
+                    var y = (y2 - y1)/2;
                     //console.log(x,y)
                     return {x:x,y:y};//Math.atan2(y,x)求出了弧度
                 }
