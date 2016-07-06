@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多点平移</title>
+    <style>
+        div{
+            width:300px;
+            height: 300px;
+            background: #ccc;
+            margin:100px auto;
+            font:100px/300px "宋体";
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+    <script>
+        window.onload = function(){
+            function d2a(n){
+                return n*180/Math.PI;//弧度转成角度
+            }
+            var oDiv = document.querySelector("div");
+            var tx = 0;
+            var ty = 0;
+            oDiv.addEventListener("touchstart",function(ev){
+                var oldTx = tx;
+                var oldTy = ty;
+                function getT(ev){//最终求出角度
+                    var x1 = ev.targetTouches[0].pageX;
+                    var y1 = ev.targetTouches[0].pageY;
+                    var x2 = oDiv.offsetLeft + oDiv.offsetWidth/2;
+                    var y2 = oDiv.offsetTop + oDiv.offsetHeight/2;
+                    var x = x1 - x2;
+                    var y = y2 - y1;
+                    //console.log(x,y)
+                    return {x:x,y:y};//Math.atan2(y,x)求出了弧度
+                }
+                if(ev.targetTouches.length == 2){
+                    var downTx = getT(ev).x;
+                    var downTy = getT(ev).y;
+                }
+                function fnMove(ev){
+                    if(ev.targetTouches.length == 2){
+                        tx = oldTx + getT(ev).x - downTx;
+                        tx = oldTy + getT(ev).y - downTy;
+                        //var  d = downD - getD(ev);
+                        oDiv.style.transform = "translate("+tx+"px,"+ty+"px)";
+                    }
+                    //一开始默认的角度为0
+                }
+                function fnEnd(){
+                    oDiv.removeEventListener("touchmove",fnMove,false);
+                    oDiv.removeEventListener("touchend",fnEnd,false);
+                }
+                oDiv.addEventListener("touchmove",fnMove,false);
+                oDiv.addEventListener("touchend",fnEnd,false);
+                ev.preventDefault();
+            },false)
+        }
+    </script>
+</head>
+<body>
+<div>1</div>
+</body>
+</html>

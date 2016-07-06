@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多点缩放</title>
+    <style>
+        div{
+            width:300px;
+            height: 300px;
+            background: #ccc;
+            margin:100px auto;
+            font:100px/300px "宋体";
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+    <script>
+        window.onload = function(){
+            function d2a(n){
+                return n*180/Math.PI;//弧度转成角度
+            }
+            var oDiv = document.querySelector("div");
+            var s = 1;
+            oDiv.addEventListener("touchstart",function(ev){
+                var oldS = s;
+                function getS(ev){//最终求出角度
+                    var x1 = ev.targetTouches[0].pageX;
+                    var y1 = ev.targetTouches[0].pageY;
+                    var x2 = oDiv.offsetLeft + oDiv.offsetWidth/2;
+                    var y2 = oDiv.offsetTop + oDiv.offsetHeight/2;
+                    var x = x1 - x2;
+                    var y = y2 - y1;
+                    //console.log(x,y)
+                    return Math.sqrt(x*x + y*y);//Math.atan2(y,x)求出了弧度
+                }
+                if(ev.targetTouches.length == 2){
+                    var downS = getS(ev);
+                }
+                function fnMove(ev){
+                    if(ev.targetTouches.length == 2){
+                        d = getS(ev)/downS * oldS ;
+                        //var  d = downD - getD(ev);
+                        oDiv.style.transform = "scale("+s+")";
+                    }
+                    //一开始默认的角度为0
+                }
+                function fnEnd(){
+                    oDiv.removeEventListener("touchmove",fnMove,false);
+                    oDiv.removeEventListener("touchend",fnEnd,false);
+                }
+                oDiv.addEventListener("touchmove",fnMove,false);
+                oDiv.addEventListener("touchend",fnEnd,false);
+                ev.preventDefault();
+            },false)
+        }
+    </script>
+</head>
+<body>
+<div>1</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1"/>
+    <title>多点拖拽</title>
+    <style>
+        div{
+            position: absolute;
+            top:0;
+            left:0;
+            width:200px;
+            height: 200px;
+            background: red;
+            font:50px/200px "宋体";
+            text-align: center;
+        }
+    </style>
+    <script>
+        window.onload = function(){
+            var aDiv = document.querySelectorAll("div");
+            for(var i = 0; i < aDiv.length; i++){
+                drag(aDiv[i]);
+            }
+            function drag(oDiv){
+                oDiv.addEventListener("touchstart",function(ev){
+                    var disX = ev.targetTouches[ev.targetTouches.length - 1].pageX - oDiv.offsetLeft;
+                    var disY = ev.targetTouches[ev.targetTouches.length - 1].pageY - oDiv.offsetTop;
+                    var id = ev.targetTouches[ev.targetTouches.length  - 1].identifier;
+
+                    function fnMove(ev){
+                       for(var i = 0; i < ev.targetTouches.length; i++){
+                           if(id = ev.targetTouches[i].identifier){
+                                oDiv.style.left = ev.targetTouches[i].pageX - disX + "px";
+                               oDiv.style.top = ev.targetTouches[i].pageY - disY + "px";
+                           }
+                       }
+                    }
+                    function fnEnd(ev){
+                        for(var i = 0; i < ev.targetTouches.length; i++){
+                            if(id = ev.changedTouches[i].identifier){
+                                oDiv.removeEventListener("touchmove",fnMove,false);
+                                oDiv.removeEventListener("touchend",fnEnd,false);
+                                break;
+                            }
+                        }
+
+                    }
+                    oDiv.addEventListener("touchmove",fnMove,false);
+                    oDiv.addEventListener("touchend",fnEnd,false);
+                    ev.preventDefault();
+                },false)
+            }
+        }
+    </script>
+</head>
+<body>
+<div>div1</div>
+<div>div2</div>
+<div>div3</div>
+</body>
+</html>
