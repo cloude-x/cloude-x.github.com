@@ -38,7 +38,7 @@
                 }
                 function fnMove(ev){
                     if(ev.targetTouches.length == 2){
-                        d = getS(ev)/downS * oldS ;
+                        s = getS(ev)/downS * oldS ;
                         //var  d = downD - getD(ev);
                         oDiv.style.webkitTransform = "scale("+s+")";
                     }

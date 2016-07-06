@@ -42,7 +42,7 @@
                 function fnMove(ev){
                     if(ev.targetTouches.length == 2){
                         tx = oldTx + getT(ev).x - downTx;
-                        tx = oldTy + getT(ev).y - downTy;
+                        ty = oldTy + getT(ev).y - downTy;
                         //var  d = downD - getD(ev);
                         oDiv.style.webkitTransform = "translate("+tx+"px,"+ty+"px)";
                     }
