@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app = "index">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>angular路由</title>
+<style>
+#div1 { width:500px; height:300px; border:1px solid red;}
+</style>
+<script src="angular.js"></script>
+<script src="angular-route.js"></script>
+<script>
+var app = angular.module("index",["ngRoute"]);
+app.controller("test",function($scope){
+	
+});
+app.config(['$routeProvider',function($routeProvider){
+	$routeProvider
+		.when("/index",{templateUrl:"index.html"})
+		.when("/news",{templateUrl:"news.html"})
+		.otherwise("/index",{redirecTo:"/index.html"})
+}]);
+</script>
+</head>
+
+<body ng-controller="test">
+<ul>
+	<li><a href="#/index">首页</a></li>
+	<li><a href="#/news">新闻</a></li>
+</ul>
+<div ng-view></div>
+</body>
+</html>
